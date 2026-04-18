@@ -3,129 +3,134 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Legal SaaS - Demo</title>
+<title>AI Legal - AI訴訟プラットフォーム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-:root {
-  --navy: #1B2A4A;
-  --gold: #C9A96E;
-  --blue: #2E75B6;
-  --light: #F5F7FA;
-  --white: #FFFFFF;
-  --text: #333;
-  --border: #E0E0E0;
-  --green: #27AE60;
-  --red: #E74C3C;
-  --orange: #F39C12;
-}
-body { font-family: 'Helvetica Neue', 'Meiryo', sans-serif; background: var(--light); color: var(--text); }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0f172a;--navy2:#1e293b;--navy3:#334155;--gold:#d4a853;--blue:#3b82f6;--light:#f8fafc;--white:#fff;--text:#334155;--text2:#64748b;--border:#e2e8f0;--green:#10b981;--red:#ef4444;--orange:#f59e0b;--purple:#8b5cf6;--radius:10px;--shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04)}
+body{font-family:'Inter','Noto Sans JP',sans-serif;background:var(--light);color:var(--text);font-size:14px;line-height:1.6}
 
 /* Sidebar */
-.sidebar { position:fixed; left:0; top:0; bottom:0; width:240px; background:var(--navy); color:white; padding:20px 0; overflow-y:auto; z-index:100; }
-.sidebar .logo { padding:0 20px 20px; border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:15px; }
-.sidebar .logo h1 { font-size:18px; color:var(--gold); }
-.sidebar .logo p { font-size:11px; color:rgba(255,255,255,0.5); margin-top:4px; }
-.sidebar nav a { display:flex; align-items:center; padding:10px 20px; color:rgba(255,255,255,0.7); text-decoration:none; font-size:13px; transition:all 0.2s; gap:10px; }
-.sidebar nav a:hover, .sidebar nav a.active { background:rgba(255,255,255,0.1); color:white; }
-.sidebar nav a.active { border-left:3px solid var(--gold); }
-.sidebar nav .section-label { padding:15px 20px 5px; font-size:10px; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:1px; }
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--navy);color:#fff;display:flex;flex-direction:column;z-index:100}
+.sidebar .logo{padding:20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar .logo h1{font-size:16px;font-weight:700;color:var(--gold);letter-spacing:.5px}
+.sidebar .logo p{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px;letter-spacing:.3px}
+.sidebar nav{flex:1;padding:12px 0;overflow-y:auto}
+.sidebar nav .section{padding:16px 16px 4px;font-size:9px;font-weight:600;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:1.5px}
+.sidebar nav a{display:flex;align-items:center;gap:10px;padding:8px 16px;color:rgba(255,255,255,.55);text-decoration:none;font-size:12px;font-weight:500;transition:all .15s;border-left:2px solid transparent}
+.sidebar nav a:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.9)}
+.sidebar nav a.active{background:rgba(255,255,255,.08);color:#fff;border-left-color:var(--gold)}
+.sidebar nav a .icon{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.ic-blue{background:rgba(59,130,246,.2);color:#60a5fa}
+.ic-green{background:rgba(16,185,129,.2);color:#34d399}
+.ic-purple{background:rgba(139,92,246,.2);color:#a78bfa}
+.ic-orange{background:rgba(245,158,11,.2);color:#fbbf24}
+.ic-red{background:rgba(239,68,68,.2);color:#f87171}
 
 /* Main */
-.main { margin-left:240px; padding:20px 30px; min-height:100vh; }
-.topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-.topbar h2 { font-size:20px; color:var(--navy); }
-.topbar .case-badge { background:var(--gold); color:var(--navy); padding:4px 12px; border-radius:20px; font-size:12px; font-weight:bold; }
+.main{margin-left:220px;padding:24px 32px;min-height:100vh}
+.page{display:none}
+.page.active{display:block}
+.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.page-header h2{font-size:18px;font-weight:700;color:var(--navy)}
+.page-header .badge{background:var(--navy);color:var(--gold);padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600}
 
 /* Cards */
-.card { background:white; border-radius:12px; padding:20px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
-.card h3 { font-size:15px; color:var(--navy); margin-bottom:12px; }
-.card-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:16px; }
+.card{background:var(--white);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px}
 
-/* Stats */
-.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:20px; }
-.stat-card { background:white; border-radius:12px; padding:16px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
-.stat-card .number { font-size:28px; font-weight:bold; color:var(--navy); }
-.stat-card .label { font-size:12px; color:#888; margin-top:4px; }
-.stat-card.green .number { color:var(--green); }
-.stat-card.red .number { color:var(--red); }
-.stat-card.orange .number { color:var(--orange); }
+/* Stat */
+.stat{background:var(--white);border-radius:var(--radius);padding:18px;text-align:center;box-shadow:var(--shadow);border:1px solid var(--border)}
+.stat .val{font-size:28px;font-weight:700;color:var(--navy)}
+.stat .lbl{font-size:11px;color:var(--text2);margin-top:2px}
+.stat.s-green .val{color:var(--green)}
+.stat.s-red .val{color:var(--red)}
+.stat.s-orange .val{color:var(--orange)}
+.stat.s-blue .val{color:var(--blue)}
 
-/* Win Rate Gauge */
-.gauge-container { display:flex; align-items:center; justify-content:center; flex-direction:column; padding:20px; }
-.gauge { width:180px; height:90px; position:relative; overflow:hidden; }
-.gauge::before { content:''; position:absolute; width:180px; height:180px; border-radius:50%; border:20px solid #eee; border-bottom-color:var(--green); border-left-color:var(--green); border-right-color:var(--orange); transform:rotate(45deg); }
-.gauge-value { font-size:36px; font-weight:bold; color:var(--navy); margin-top:10px; }
+/* Table */
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--light);color:var(--text2);font-weight:600;padding:10px 14px;text-align:left;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:10px 14px;border-bottom:1px solid var(--border)}
+tr:hover td{background:#f1f5f9}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600}
+.tag-red{background:#fef2f2;color:#dc2626}
+.tag-green{background:#f0fdf4;color:#16a34a}
+.tag-yellow{background:#fffbeb;color:#d97706}
+.tag-blue{background:#eff6ff;color:#2563eb}
+.tag-purple{background:#faf5ff;color:#7c3aed}
 
 /* Timeline */
-.timeline { position:relative; padding-left:30px; }
-.timeline::before { content:''; position:absolute; left:10px; top:0; bottom:0; width:2px; background:var(--border); }
-.timeline-item { position:relative; margin-bottom:16px; padding:12px 16px; background:#f8f9fa; border-radius:8px; border-left:3px solid var(--blue); }
-.timeline-item .date { font-size:11px; color:var(--blue); font-weight:bold; }
-.timeline-item .event { font-size:13px; margin-top:4px; }
-.timeline-item .axis { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10px; color:white; margin-top:4px; }
-.axis-legal { background:#E74C3C; }
-.axis-dev { background:#27AE60; }
-.axis-finance { background:#F39C12; }
-.axis-detect { background:#2E75B6; }
-.axis-tanso { background:#E67E22; }
+.tl{position:relative;padding-left:24px}
+.tl::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:14px;padding:12px 16px;background:var(--white);border-radius:8px;border:1px solid var(--border);font-size:12px}
+.tl-item::before{content:'';position:absolute;left:-21px;top:16px;width:8px;height:8px;border-radius:50%;border:2px solid var(--blue);background:var(--white)}
+.tl-item.highlight::before{background:var(--red);border-color:var(--red)}
+.tl-item .tl-date{font-size:11px;font-weight:600;color:var(--blue)}
+.tl-item .tl-text{margin-top:3px;color:var(--text)}
+.tl-item .tl-axis{display:inline-block;margin-top:4px;padding:1px 6px;border-radius:3px;font-size:9px;font-weight:600;color:var(--white)}
 
-/* Evidence Table */
-table { width:100%; border-collapse:collapse; font-size:13px; }
-table th { background:var(--navy); color:white; padding:10px 12px; text-align:left; font-weight:500; }
-table td { padding:10px 12px; border-bottom:1px solid var(--border); }
-table tr:hover td { background:#f8f9fa; }
-.badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:bold; }
-.badge-high { background:#FFEBEE; color:#C62828; }
-.badge-mid { background:#FFF3E0; color:#E65100; }
-.badge-done { background:#E8F5E9; color:#2E7D32; }
-.badge-check { background:#FFF8E1; color:#F57F17; }
-.score-bar { height:6px; background:#eee; border-radius:3px; overflow:hidden; }
-.score-bar .fill { height:100%; border-radius:3px; }
+/* Chat */
+.chat{max-height:600px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.msg{padding:12px 16px;border-radius:10px;font-size:12px;line-height:1.7;max-width:88%}
+.msg .role{font-size:10px;font-weight:700;margin-bottom:4px;letter-spacing:.3px}
+.msg-judge{background:#eff6ff;border:1px solid #bfdbfe;align-self:center;max-width:92%}
+.msg-judge .role{color:#1d4ed8}
+.msg-plaintiff{background:#fef2f2;border:1px solid #fecaca;align-self:flex-start}
+.msg-plaintiff .role{color:#dc2626}
+.msg-defendant{background:#f0fdf4;border:1px solid #bbf7d0;align-self:flex-end}
+.msg-defendant .role{color:#16a34a}
 
-/* Simulation Chat */
-.chat-box { max-height:500px; overflow-y:auto; }
-.chat-msg { margin-bottom:12px; padding:12px 16px; border-radius:12px; max-width:85%; font-size:13px; line-height:1.6; }
-.chat-msg.judge { background:#E3F2FD; margin-left:auto; margin-right:auto; max-width:90%; border:1px solid #BBDEFB; }
-.chat-msg.plaintiff { background:#FFEBEE; margin-right:auto; border:1px solid #FFCDD2; }
-.chat-msg.defendant { background:#E8F5E9; margin-left:auto; border:1px solid #C8E6C9; }
-.chat-msg .role { font-size:11px; font-weight:bold; margin-bottom:4px; }
-.chat-msg.judge .role { color:#1565C0; }
-.chat-msg.plaintiff .role { color:#C62828; }
-.chat-msg.defendant .role { color:#2E7D32; }
+/* Issues */
+.issue{padding:14px;border-radius:8px;margin-bottom:10px;border-left:3px solid;font-size:12px}
+.issue-good{background:#f0fdf4;border-color:var(--green)}
+.issue-bad{background:#fef2f2;border-color:var(--red)}
+.issue-warn{background:#fffbeb;border-color:var(--orange)}
+.issue .i-title{font-weight:600;font-size:13px}
+.issue .i-desc{color:var(--text2);margin-top:3px}
+.issue .i-score{float:right;font-weight:700;font-size:13px}
 
-/* Tabs */
-.tabs { display:flex; gap:0; margin-bottom:20px; border-bottom:2px solid var(--border); }
-.tab { padding:10px 20px; font-size:13px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; color:#888; transition:all 0.2s; }
-.tab:hover { color:var(--navy); }
-.tab.active { color:var(--navy); border-bottom-color:var(--gold); font-weight:bold; }
-.tab-content { display:none; }
-.tab-content.active { display:block; }
-
-/* Issues Matrix */
-.issue-card { padding:14px; border-radius:8px; margin-bottom:10px; }
-.issue-card.favorable { background:#E8F5E9; border-left:4px solid #27AE60; }
-.issue-card.unfavorable { background:#FFEBEE; border-left:4px solid #E74C3C; }
-.issue-card.neutral { background:#FFF8E1; border-left:4px solid #F39C12; }
-.issue-card .title { font-weight:bold; font-size:14px; }
-.issue-card .desc { font-size:12px; color:#666; margin-top:4px; }
-.issue-card .strength { float:right; font-size:14px; }
+/* Bar */
+.bar{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-top:4px}
+.bar .fill{height:100%;border-radius:3px}
 
 /* Button */
-.btn { padding:8px 20px; border:none; border-radius:8px; cursor:pointer; font-size:13px; font-weight:bold; transition:all 0.2s; }
-.btn-primary { background:var(--navy); color:white; }
-.btn-primary:hover { background:#2a3f6e; }
-.btn-gold { background:var(--gold); color:var(--navy); }
-.btn-outline { background:transparent; border:1px solid var(--navy); color:var(--navy); }
+.btn{padding:8px 18px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s}
+.btn-primary{background:var(--navy);color:var(--white)}
+.btn-primary:hover{background:var(--navy2)}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-sm{padding:5px 12px;font-size:11px}
 
-.hidden { display:none; }
+/* Scenario */
+.scenario{padding:14px;border-radius:8px;text-align:center;flex:1;min-width:140px}
+.scenario .sc-pct{font-size:22px;font-weight:700}
+.scenario .sc-lbl{font-size:11px;color:var(--text2);margin-top:2px}
 
-/* Responsive */
-@media(max-width:768px) {
-  .sidebar { width:60px; }
-  .sidebar .logo h1, .sidebar .logo p, .sidebar nav a span, .sidebar nav .section-label { display:none; }
-  .main { margin-left:60px; }
-  .stats-row { grid-template-columns:repeat(2,1fr); }
-}
+/* Tabs */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:18px}
+.tab{padding:8px 18px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s}
+.tab:hover{color:var(--navy)}
+.tab.active{color:var(--navy);border-bottom-color:var(--gold);font-weight:600}
+
+/* Strategy Tree */
+.tree{font-family:'Inter',monospace;font-size:12px;line-height:2.2;background:var(--light);padding:18px;border-radius:8px}
+.tree strong{color:var(--navy)}
+.tree .done{color:var(--green);font-weight:600}
+
+/* Search */
+.search-box{display:flex;gap:10px;margin-bottom:18px}
+.search-box input{flex:1;padding:10px 16px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none}
+.search-box input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+.result-card{padding:14px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px;transition:all .15s}
+.result-card:hover{border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,130,246,.05)}
+.result-card .rc-title{font-weight:600;font-size:13px;color:var(--navy)}
+.result-card .rc-meta{font-size:11px;color:var(--text2);margin-top:2px}
+.result-card .rc-body{font-size:12px;margin-top:6px}
 </style>
 </head>
 <body>
@@ -133,293 +138,338 @@ table tr:hover td { background:#f8f9fa; }
 <div class="sidebar">
   <div class="logo">
     <h1>AI Legal</h1>
-    <p>AI-Powered Litigation Platform</p>
+    <p>Litigation Platform</p>
   </div>
   <nav>
-    <div class="section-label">Main</div>
-    <a href="#" class="active" onclick="showPage('dashboard')">&#x1f4ca; <span>ダッシュボード</span></a>
-    <a href="#" onclick="showPage('evidence')">&#x1f4c1; <span>証拠管理</span></a>
-    <a href="#" onclick="showPage('timeline')">&#x1f553; <span>タイムライン</span></a>
-    <a href="#" onclick="showPage('issues')">&#x2696; <span>争点分析</span></a>
-    <div class="section-label">AI Simulation</div>
-    <a href="#" onclick="showPage('simulation')">&#x1f916; <span>訴訟シミュレーション</span></a>
-    <a href="#" onclick="showPage('court')">&#x1f3db; <span>法廷シミュレーション</span></a>
-    <a href="#" onclick="showPage('strategy')">&#x1f3af; <span>勝ちルート策定</span></a>
-    <div class="section-label">Tools</div>
-    <a href="#" onclick="showPage('documents')">&#x1f4dd; <span>書面作成</span></a>
-    <a href="#" onclick="showPage('search')">&#x1f50d; <span>判例検索</span></a>
+    <div class="section">Overview</div>
+    <a href="#" class="active" data-page="dashboard"><span class="icon ic-blue">D</span> Dashboard</a>
+    <div class="section">Case Data</div>
+    <a href="#" data-page="evidence"><span class="icon ic-green">E</span> Evidence</a>
+    <a href="#" data-page="timeline"><span class="icon ic-blue">T</span> Timeline</a>
+    <a href="#" data-page="issues"><span class="icon ic-purple">I</span> Issues</a>
+    <div class="section">AI Analysis</div>
+    <a href="#" data-page="simulation"><span class="icon ic-orange">S</span> Simulation</a>
+    <a href="#" data-page="court"><span class="icon ic-red">C</span> Court Sim</a>
+    <a href="#" data-page="strategy"><span class="icon ic-purple">W</span> Win Route</a>
+    <div class="section">Tools</div>
+    <a href="#" data-page="documents"><span class="icon ic-green">D</span> Documents</a>
+    <a href="#" data-page="search"><span class="icon ic-orange">R</span> Research</a>
   </nav>
 </div>
 
 <div class="main">
 
-<!-- ===== Dashboard ===== -->
-<div id="page-dashboard" class="page">
-  <div class="topbar">
-    <h2>案件ダッシュボード</h2>
-    <span class="case-badge">タンソーマンGX案件</span>
+<!-- ===== DASHBOARD ===== -->
+<div id="p-dashboard" class="page active">
+  <div class="page-header"><h2>Case Dashboard</h2><span class="badge">Tansoman GX v. detect</span></div>
+  <div class="grid-4" style="margin-bottom:18px">
+    <div class="stat s-green"><div class="val">98.7%</div><div class="lbl">Win Rate (8 Layers)</div></div>
+    <div class="stat"><div class="val">1,434</div><div class="lbl">Evidence Files</div></div>
+    <div class="stat s-orange"><div class="val">35%</div><div class="lbl">Requirements Met</div></div>
+    <div class="stat s-red"><div class="val">12</div><div class="lbl">Winning Elements</div></div>
   </div>
-
-  <div class="stats-row">
-    <div class="stat-card green"><div class="number">98.7%</div><div class="label">勝率（8層防壁）</div></div>
-    <div class="stat-card"><div class="number">1,434</div><div class="label">証拠ファイル数</div></div>
-    <div class="stat-card orange"><div class="number">35%</div><div class="label">要件充足率</div></div>
-    <div class="stat-card red"><div class="number">12</div><div class="label">勝訴要素</div></div>
-  </div>
-
-  <div class="card-grid">
+  <div class="grid-2">
     <div class="card">
-      <h3>&#x26a0; 直近アラート</h3>
-      <div style="font-size:13px;line-height:1.8;">
-        <div>&#x1f534; 反論書面の提出期限が近づいています</div>
-        <div>&#x1f7e1; 反町（ジョブクラウン）の陳述書が未取得です</div>
-        <div>&#x1f7e2; ①〜⑦確認事項の整理が完了しました</div>
-        <div>&#x1f7e2; 法廷シミュレーション3回分が完了しました</div>
+      <div class="card-title">Alerts</div>
+      <div style="font-size:12px;line-height:2">
+        <div><span class="tag tag-red">URGENT</span> Rebuttal brief deadline approaching</div>
+        <div><span class="tag tag-yellow">TODO</span> Obtain Sorimachi (JobCrown) witness statement</div>
+        <div><span class="tag tag-yellow">TODO</span> Screenshot Chatwork 2024/06/10 "Can't login"</div>
+        <div><span class="tag tag-green">DONE</span> Items 1-7 confirmation completed</div>
+        <div><span class="tag tag-green">DONE</span> Courtroom simulation x3 completed</div>
+        <div><span class="tag tag-green">DONE</span> Win rate 100% route identified</div>
       </div>
     </div>
     <div class="card">
-      <h3>&#x1f4c5; 訴訟スケジュール</h3>
-      <div style="font-size:13px;line-height:2;">
-        <div><strong>次回期日：</strong>反論書面提出（準備中）</div>
-        <div><strong>検討中：</strong>訴訟告知（ジョブクラウン宛）</div>
-        <div><strong>検討中：</strong>反訴（決算書守秘義務違反）</div>
-        <div><strong>完了：</strong>仮差押え終了・合意書締結</div>
+      <div class="card-title">Case Schedule</div>
+      <div style="font-size:12px;line-height:2">
+        <div><strong>Next:</strong> Submit rebuttal brief (in preparation)</div>
+        <div><strong>Pending:</strong> Third-party notice to JobCrown</div>
+        <div><strong>Pending:</strong> Counterclaim (financial statement misuse)</div>
+        <div><strong>Pending:</strong> Subsidy fraud report to gov</div>
+        <div><strong>Done:</strong> Provisional attachment terminated</div>
+        <div><strong>Done:</strong> Settlement agreement signed</div>
       </div>
     </div>
   </div>
-
   <div class="card">
-    <h3>&#x1f3af; 勝訴シナリオ分布</h3>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;">
-      <div style="flex:1;min-width:150px;background:#E8F5E9;padding:12px;border-radius:8px;text-align:center;">
-        <div style="font-size:24px;font-weight:bold;color:#2E7D32;">25-30%</div>
-        <div style="font-size:12px;color:#666;">全面勝訴（支払ゼロ）</div>
-      </div>
-      <div style="flex:1;min-width:150px;background:#FFF8E1;padding:12px;border-radius:8px;text-align:center;">
-        <div style="font-size:24px;font-weight:bold;color:#F57F17;">35-40%</div>
-        <div style="font-size:12px;color:#666;">和解（300-500万）</div>
-      </div>
-      <div style="flex:1;min-width:150px;background:#E3F2FD;padding:12px;border-radius:8px;text-align:center;">
-        <div style="font-size:24px;font-weight:bold;color:#1565C0;">30-35%</div>
-        <div style="font-size:12px;color:#666;">出来高認定（500-700万）</div>
-      </div>
-      <div style="flex:1;min-width:150px;background:#FFEBEE;padding:12px;border-radius:8px;text-align:center;">
-        <div style="font-size:24px;font-weight:bold;color:#C62828;">1.3%</div>
-        <div style="font-size:12px;color:#666;">全面敗訴</div>
-      </div>
+    <div class="card-title">Outcome Scenarios</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div class="scenario" style="background:#f0fdf4"><div class="sc-pct" style="color:#16a34a">25-30%</div><div class="sc-lbl">Full dismissal (pay 0)</div></div>
+      <div class="scenario" style="background:#fffbeb"><div class="sc-pct" style="color:#d97706">35-40%</div><div class="sc-lbl">Settlement (300-500M yen)</div></div>
+      <div class="scenario" style="background:#eff6ff"><div class="sc-pct" style="color:#2563eb">30-35%</div><div class="sc-lbl">Partial (500-700M yen)</div></div>
+      <div class="scenario" style="background:#fef2f2"><div class="sc-pct" style="color:#dc2626">1.3%</div><div class="sc-lbl">Full loss</div></div>
     </div>
   </div>
 </div>
 
-<!-- ===== Evidence ===== -->
-<div id="page-evidence" class="page hidden">
-  <div class="topbar"><h2>証拠管理</h2><button class="btn btn-primary" onclick="alert('ファイルをドラッグ&ドロップしてアップロード')">+ 証拠アップロード</button></div>
+<!-- ===== EVIDENCE ===== -->
+<div id="p-evidence" class="page">
+  <div class="page-header"><h2>Evidence Management</h2><button class="btn btn-primary">+ Upload Evidence</button></div>
+  <div class="grid-4" style="margin-bottom:18px">
+    <div class="stat"><div class="val">1,434</div><div class="lbl">Total Files</div></div>
+    <div class="stat s-green"><div class="val">16</div><div class="lbl">Key Evidence (Obtained)</div></div>
+    <div class="stat s-orange"><div class="val">2</div><div class="lbl">Action Required</div></div>
+    <div class="stat"><div class="val">22</div><div class="lbl">Opponent's Exhibits</div></div>
+  </div>
   <div class="card">
+    <div class="card-title">Key Evidence Registry</div>
     <table>
-      <tr><th>No</th><th>資料名</th><th>種類</th><th>重要度</th><th>関連争点</th><th>ステータス</th></tr>
-      <tr><td>1</td><td>業務委託契約書_ビジネス・サーチ御中</td><td>契約書</td><td><span class="badge badge-high">最高</span></td><td>①②④⑤</td><td><span class="badge badge-done">入手済</span></td></tr>
-      <tr><td>2</td><td>初期要件定義書.xlsx（13シート）</td><td>要件定義書</td><td><span class="badge badge-high">最高</span></td><td>①②</td><td><span class="badge badge-done">入手済</span></td></tr>
-      <tr><td>3</td><td>疎甲5号証（相関図）★「契約書なし」記載</td><td>相関図</td><td><span class="badge badge-high">最高</span></td><td>契約不存在</td><td><span class="badge badge-done">入手済</span></td></tr>
-      <tr><td>4</td><td>疎甲10号証（金子陳述書）★加藤が代筆代印</td><td>陳述書</td><td><span class="badge badge-high">最高</span></td><td>証拠信用性</td><td><span class="badge badge-done">入手済</span></td></tr>
-      <tr><td>5</td><td>決算書LINEスクショ（7枚）★守秘義務違反</td><td>スクリーンショット</td><td><span class="badge badge-high">最高</span></td><td>⑦・反訴</td><td><span class="badge badge-done">入手済</span></td></tr>
-      <tr><td>6</td><td>チャットワーク 2024/06/10「未だ入れません！」</td><td>チャットログ</td><td><span class="badge badge-high">最高</span></td><td>⑤デプロイ</td><td><span class="badge badge-check">要スクショ</span></td></tr>
-      <tr><td>7</td><td>ソースコード技術鑑定書（AI機能ゼロ）</td><td>技術報告書</td><td><span class="badge badge-mid">高</span></td><td>②要件不充足</td><td><span class="badge badge-done">分析済</span></td></tr>
-      <tr><td>8</td><td>反町（ジョブクラウン）陳述書</td><td>陳述書</td><td><span class="badge badge-mid">高</span></td><td>契約構造</td><td><span class="badge badge-check">未取得</span></td></tr>
+      <tr><th>#</th><th>Document</th><th>Type</th><th>Priority</th><th>Related Issues</th><th>Status</th></tr>
+      <tr><td>1</td><td>Business Consignment Contract (BizSearch - JobCrown)</td><td>Contract</td><td><span class="tag tag-red">Critical</span></td><td>1,2,4,5</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>2</td><td>Initial Requirements Definition (13 sheets)</td><td>Req Doc</td><td><span class="tag tag-red">Critical</span></td><td>1,2</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>3</td><td>Exhibit 5: Correlation Diagram - "No Contract" stated</td><td>Diagram</td><td><span class="tag tag-red">Critical</span></td><td>Contract non-existence</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>4</td><td>Exhibit 10: Kaneko Statement - Ghost-written by Kato</td><td>Statement</td><td><span class="tag tag-red">Critical</span></td><td>Evidence credibility</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>5</td><td>Financial Statement LINE Screenshots (7 imgs)</td><td>Screenshot</td><td><span class="tag tag-red">Critical</span></td><td>7, Counterclaim</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>6</td><td>Chatwork 2024/06/10 "Still can't login!"</td><td>Chat Log</td><td><span class="tag tag-red">Critical</span></td><td>5: Deploy</td><td><span class="tag tag-yellow">Need Screenshot</span></td></tr>
+      <tr><td>7</td><td>Source Code Analysis (Zero AI Libraries)</td><td>Tech Report</td><td><span class="tag tag-red">Critical</span></td><td>2: Requirements</td><td><span class="tag tag-green">Analyzed</span></td></tr>
+      <tr><td>8</td><td>Sorimachi (JobCrown) Witness Statement</td><td>Statement</td><td><span class="tag tag-red">Critical</span></td><td>Contract structure</td><td><span class="tag tag-yellow">Not Yet</span></td></tr>
+      <tr><td>9</td><td>Kato Email: "Kaneko works as your employee"</td><td>Email</td><td><span class="tag tag-red">Critical</span></td><td>Conflict of interest</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>10</td><td>Progress Report (2024/09/06, by Mukai)</td><td>Report</td><td><span class="tag tag-blue">High</span></td><td>1,2,5,6</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>11</td><td>Case Overview Excel (all sheets)</td><td>Timeline</td><td><span class="tag tag-blue">High</span></td><td>3,5,6</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>12</td><td>Demand Letter from Acropiece (2024/10/07)</td><td>Legal</td><td><span class="tag tag-blue">High</span></td><td>-</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>13</td><td>Preservation Objection / Cancellation Filing</td><td>Legal</td><td><span class="tag tag-blue">High</span></td><td>Counterclaim</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>14</td><td>Settlement Agreement (Oct 2024)</td><td>Agreement</td><td><span class="tag tag-blue">High</span></td><td>-</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>15</td><td>Test Management Sheet (816 rows)</td><td>QA</td><td><span class="tag tag-blue">High</span></td><td>2,5</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>16</td><td>Bug Report - Shimazu review "impossible to manage"</td><td>QA</td><td><span class="tag tag-blue">High</span></td><td>2: Quality</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>17</td><td>LINE Talk Histories (7+ text files)</td><td>Chat</td><td><span class="tag tag-blue">High</span></td><td>6,7</td><td><span class="tag tag-green">Obtained</span></td></tr>
+      <tr><td>18</td><td>Loan Documents - Resona Bank</td><td>Financial</td><td><span class="tag tag-blue">High</span></td><td>Counterclaim</td><td><span class="tag tag-green">Obtained</span></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">Opponent's Exhibits (Tansoman Side)</div>
+    <table>
+      <tr><th>Exhibit</th><th>Document</th><th>Date</th><th>Author</th><th>Our Use</th></tr>
+      <tr><td>Ex.1</td><td>Registry - Tansoman GX</td><td>R6.9.26</td><td>Legal Affairs Bureau</td><td><span class="tag tag-green">Kato NOT listed as officer</span></td></tr>
+      <tr><td>Ex.5</td><td>Correlation Diagram</td><td>R6.9.26</td><td>Acropiece</td><td><span class="tag tag-green">"No Contract" explicitly stated</span></td></tr>
+      <tr><td>Ex.6</td><td>Business Consignment Contract</td><td>R6.1.18</td><td>Kaneko</td><td><span class="tag tag-green">Parties: BizSearch - JobCrown only</span></td></tr>
+      <tr><td>Ex.9</td><td>Quotation</td><td>R5.12.25</td><td>Kaneko</td><td><span class="tag tag-yellow">Under "medidas" (old name)</span></td></tr>
+      <tr><td>Ex.10</td><td>Kaneko Statement</td><td>R6.9.26</td><td>Kaneko (ghost-written by Kato)</td><td><span class="tag tag-green">"No contract was created" - self-admission</span></td></tr>
+      <tr><td>Ex.12</td><td>Invoice</td><td>R6.4.30</td><td>Tansoman</td><td><span class="tag tag-yellow">21,440,000 yen claim</span></td></tr>
+      <tr><td>Ex.18</td><td>Financial Statement</td><td>R5.7.26</td><td>Tax Accountant</td><td><span class="tag tag-red">Misused - given for subsidy, used for attachment</span></td></tr>
+      <tr><td>Ex.21</td><td>Registry - medidas/Tansoman relation</td><td>R6.10.2</td><td>Registry Service</td><td><span class="tag tag-yellow">Name change confirmed</span></td></tr>
     </table>
   </div>
 </div>
 
-<!-- ===== Timeline ===== -->
-<div id="page-timeline" class="page hidden">
-  <div class="topbar"><h2>時系列タイムライン</h2><button class="btn btn-outline">Excel出力</button></div>
+<!-- ===== TIMELINE ===== -->
+<div id="p-timeline" class="page">
+  <div class="page-header"><h2>Timeline</h2><button class="btn btn-outline btn-sm">Export Excel</button></div>
   <div class="card">
-    <div class="timeline">
-      <div class="timeline-item"><div class="date">2023/11/08</div><div class="event">籠倉から入札サイト開発の相談</div><span class="axis axis-detect">エンド</span></div>
-      <div class="timeline-item"><div class="date">2023/12/24</div><div class="event">金子が要件定義書（13シート）を作成</div><span class="axis axis-tanso">タンソ</span></div>
-      <div class="timeline-item"><div class="date">2024/01/19</div><div class="event">契約書締結（ビジネスサーチ⇔ジョブクラウン）3000万円</div><span class="axis axis-legal">契約</span></div>
-      <div class="timeline-item"><div class="date">2024/03/30</div><div class="event">★納入予定日。作業終了も要件未充足。デプロイ未実施</div><span class="axis axis-dev">開発</span></div>
-      <div class="timeline-item"><div class="date">2024/06/10</div><div class="event">★籠倉「未だ入れません！」ログイン不可</div><span class="axis axis-dev">開発</span></div>
-      <div class="timeline-item"><div class="date">2024/07/18-24</div><div class="event">★金子が決算書を「補助金のため」として請求・取得</div><span class="axis axis-finance">財務</span></div>
-      <div class="timeline-item"><div class="date">2024/09/10</div><div class="event">★加藤「訴訟はプレッシャーの意味合いで使うだけ」</div><span class="axis axis-tanso">タンソ</span></div>
-      <div class="timeline-item"><div class="date">2024/10/07</div><div class="event">★アクロピースからdetect宛に内容証明</div><span class="axis axis-legal">法務</span></div>
-      <div class="timeline-item"><div class="date">2024/10/22</div><div class="event">黒崎先生が保全異議申立書・仮差押執行取消申立書を提出</div><span class="axis axis-legal">法務</span></div>
-      <div class="timeline-item"><div class="date">2024/10月末</div><div class="event">仮差押え終了。合意書締結</div><span class="axis axis-legal">法務</span></div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;font-size:11px">
+      <span class="tag tag-blue">Contract</span>
+      <span class="tag tag-green">Development</span>
+      <span class="tag tag-red">Legal</span>
+      <span class="tag tag-yellow">Financial</span>
+      <span class="tag tag-purple">Tansoman</span>
+    </div>
+    <div class="tl">
+      <div class="tl-item"><div class="tl-date">2023/11/08</div><div class="tl-text">Kagokura inquires about bid search site development</div><span class="tl-axis" style="background:var(--blue)">Contract</span></div>
+      <div class="tl-item"><div class="tl-date">2023/12/24</div><div class="tl-text">Kaneko creates requirements document (13 sheets)</div><span class="tl-axis" style="background:var(--green)">Dev</span></div>
+      <div class="tl-item"><div class="tl-date">2024/01/19</div><div class="tl-text">Contract signed (BizSearch - JobCrown). 30M yen. Deploy to client server.</div><span class="tl-axis" style="background:var(--blue)">Contract</span></div>
+      <div class="tl-item"><div class="tl-date">2024/02/13</div><div class="tl-text">Kaneko: "I want to pull out of gov projects" "Let me fade out"</div><span class="tl-axis" style="background:var(--purple)">Tansoman</span></div>
+      <div class="tl-item"><div class="tl-date">2024/03/26</div><div class="tl-text">Quality complaints: "Can't login", "Output quality is bad"</div><span class="tl-axis" style="background:var(--green)">Dev</span></div>
+      <div class="tl-item highlight"><div class="tl-date">2024/03/30</div><div class="tl-text">CONTRACT DELIVERY DATE. Work stopped. Requirements unmet. Deploy NOT done.</div><span class="tl-axis" style="background:var(--red)">Critical</span></div>
+      <div class="tl-item"><div class="tl-date">2024/04/01</div><div class="tl-text">Kaneko: "I want to formalize the contract" = admits no contract exists</div><span class="tl-axis" style="background:var(--purple)">Tansoman</span></div>
+      <div class="tl-item highlight"><div class="tl-date">2024/06/10</div><div class="tl-text">Kagokura: "STILL CAN'T LOGIN!" - Login impossible even months later</div><span class="tl-axis" style="background:var(--red)">Critical</span></div>
+      <div class="tl-item highlight"><div class="tl-date">2024/07/18-24</div><div class="tl-text">Kaneko requests financial statements "for subsidy application". detect sends R4+R5 statements.</div><span class="tl-axis" style="background:var(--orange)">Financial</span></div>
+      <div class="tl-item"><div class="tl-date">2024/09/05</div><div class="tl-text">Kato joins. Starts debt collection negotiations.</div><span class="tl-axis" style="background:var(--purple)">Tansoman</span></div>
+      <div class="tl-item highlight"><div class="tl-date">2024/09/10</div><div class="tl-text">Kato: "Litigation is just for PRESSURE purposes"</div><span class="tl-axis" style="background:var(--red)">Critical</span></div>
+      <div class="tl-item highlight"><div class="tl-date">2024/10/07</div><div class="tl-text">Acropiece sends demand letter to detect. Provisional attachment filed.</div><span class="tl-axis" style="background:var(--red)">Legal</span></div>
+      <div class="tl-item"><div class="tl-date">2024/10/15</div><div class="tl-text">Inoue: "They have our financial statements, all 4 bank accounts exposed"</div><span class="tl-axis" style="background:var(--orange)">Financial</span></div>
+      <div class="tl-item"><div class="tl-date">2024/10/22-25</div><div class="tl-text">Kurosaki files preservation objection + petition. Argues illegal attachment + financial statement misuse.</div><span class="tl-axis" style="background:var(--red)">Legal</span></div>
+      <div class="tl-item"><div class="tl-date">2024/10 end</div><div class="tl-text">Provisional attachment terminated. Settlement agreement signed.</div><span class="tl-axis" style="background:var(--red)">Legal</span></div>
+      <div class="tl-item"><div class="tl-date">2025/01/23</div><div class="tl-text">Strategy meeting: Counterattack patterns discussed. "Financial statement misuse = breach of confidentiality"</div><span class="tl-axis" style="background:var(--red)">Legal</span></div>
+      <div class="tl-item"><div class="tl-date">2026/04/10</div><div class="tl-text">Items 1-7 preparation started. AI analysis of all 1,434 files.</div><span class="tl-axis" style="background:var(--blue)">Current</span></div>
     </div>
   </div>
 </div>
 
-<!-- ===== Issues ===== -->
-<div id="page-issues" class="page hidden">
-  <div class="topbar"><h2>争点分析</h2></div>
-  <div class="card-grid">
+<!-- ===== ISSUES ===== -->
+<div id="p-issues" class="page">
+  <div class="page-header"><h2>Issue Analysis</h2></div>
+  <div class="grid-2">
     <div class="card">
-      <h3>&#x2705; 有利な争点</h3>
-      <div class="issue-card favorable"><div class="strength">★★★★★</div><div class="title">A-1. デプロイ未実施</div><div class="desc">契約書第8条「甲の指定サーバー上へのデプロイ」が未実施 → 検収未了 → 支払義務未発生</div></div>
-      <div class="issue-card favorable"><div class="strength">★★★★★</div><div class="title">A-2. 検収未完了</div><div class="desc">第6条の検収通知がゼロ。成果物の「提出」自体がされていない</div></div>
-      <div class="issue-card favorable"><div class="strength">★★★★★</div><div class="title">C-1. 決算書の守秘義務違反</div><div class="desc">補助金申請で交付→仮差押え証拠に流用。黒崎先生が既に主張済</div></div>
-      <div class="issue-card favorable"><div class="strength">★★★★☆</div><div class="title">A-3. 要件充足率35%</div><div class="desc">AI機能完全未実装。ソースコードにAIライブラリゼロ</div></div>
+      <div class="card-title">Favorable Issues</div>
+      <div class="issue issue-good"><div class="i-score">5/5</div><div class="i-title">A-1. Deploy Not Executed</div><div class="i-desc">Contract Art.8 "Deploy to client's designated server" = NOT DONE. Acceptance never completed. Payment obligation never arose.</div></div>
+      <div class="issue issue-good"><div class="i-score">5/5</div><div class="i-title">A-2. Acceptance Never Completed</div><div class="i-desc">Art.6 acceptance notice = ZERO. No deliverable was ever formally submitted.</div></div>
+      <div class="issue issue-good"><div class="i-score">5/5</div><div class="i-title">C-1. Financial Statement Confidentiality Breach</div><div class="i-desc">Statements given for "subsidy" used as evidence for attachment (Ex.18). Already argued by Kurosaki.</div></div>
+      <div class="issue issue-good"><div class="i-score">4/5</div><div class="i-title">A-3. Requirements Only 35% Met</div><div class="i-desc">AI function: ZERO implementation. Source code has NO AI libraries. Admin functions broken.</div></div>
+      <div class="issue issue-good"><div class="i-score">4/5</div><div class="i-title">A-4. "Send Invoice" = Not Acceptance</div><div class="i-desc">Mukai's statement was for internal review purposes, based on Kaneko's false completion report.</div></div>
+      <div class="issue issue-good"><div class="i-score">5/5</div><div class="i-title">NEW: Kato is NOT an Employee</div><div class="i-desc">Not in registry (Ex.1). Not in correlation diagram (Ex.5). Self-described as "person from Vietnamese company". Ghost-wrote court statement.</div></div>
+      <div class="issue issue-good"><div class="i-score">4/5</div><div class="i-title">NEW: Contract Non-Existence Self-Admission</div><div class="i-desc">Ex.5: "No contract (document)" x2. Ex.10: "No contract was created." Kaneko LINE 4/1: "I want to formalize the contract."</div></div>
     </div>
     <div class="card">
-      <h3>&#x26a0; 注意が必要な争点</h3>
-      <div class="issue-card unfavorable"><div class="strength">要対策</div><div class="title">本舘の分割払い提案</div><div class="desc">債務承認と解釈されるリスク → 陳述書で「交渉上の譲歩」と明記が必要</div></div>
-      <div class="issue-card unfavorable"><div class="strength">要対策</div><div class="title">向井の「請求書を出して」発言</div><div class="desc">弁済期到来の自認と解釈されるリスク → 「社内検討のため」の文脈を立証</div></div>
-      <div class="issue-card neutral"><div class="strength">★★★★★</div><div class="title">新発見：加藤は非社員</div><div class="desc">登記簿にも相関図にもいない。「ベトナムの会社」の人間。陳述書の代筆代印の正当性を争える</div></div>
+      <div class="card-title">Risk Areas (Need Preparation)</div>
+      <div class="issue issue-bad"><div class="i-title">Motodate's installment proposal</div><div class="i-desc">Risk of being interpreted as debt acknowledgment. COUNTER: "Negotiation concession for dispute resolution, not admission of debt."</div></div>
+      <div class="issue issue-bad"><div class="i-title">Mukai's "send invoice" statement</div><div class="i-desc">Risk of being interpreted as payment acceptance. COUNTER: "Internal processing request, not contractual acceptance."</div></div>
+      <div class="issue issue-warn"><div class="i-title">Implicit contract may be recognized</div><div class="i-desc">Court may find practical business relationship. COUNTER: Internal approval process requires written PO. No PO was ever issued.</div></div>
+      <div class="issue issue-warn"><div class="i-title">Work product exists (816 rows test, 996 Q&A)</div><div class="i-desc">Court may award partial payment. COUNTER: End client says "unusable". detect never used it. No benefit received.</div></div>
+      <div class="card-title" style="margin-top:16px">Counterattack Elements</div>
+      <div class="issue issue-good"><div class="i-score">5/5</div><div class="i-title">Counterclaim: Financial Statement Misuse (400-900M yen)</div><div class="i-desc">Breach of confidentiality. Resona Bank loan lost. Win prob: 55-65%.</div></div>
+      <div class="issue issue-good"><div class="i-score">4/5</div><div class="i-title">Illegal Provisional Attachment</div><div class="i-desc">Deposit 4.4M vs loan 17.1M. No surplus. Attachment on main bank = disproportionate.</div></div>
+      <div class="issue issue-good"><div class="i-score">3/5</div><div class="i-title">Kato: "Litigation is just for pressure"</div><div class="i-desc">Abuse of right to litigate. Use as impeachment evidence.</div></div>
     </div>
   </div>
 </div>
 
-<!-- ===== Simulation ===== -->
-<div id="page-simulation" class="page hidden">
-  <div class="topbar"><h2>訴訟シミュレーション</h2><button class="btn btn-gold" onclick="runSimulation()">&#x25b6; シミュレーション実行</button></div>
-  <div class="stats-row">
-    <div class="stat-card"><div class="number">11</div><div class="label">シミュレーション実行回数</div></div>
-    <div class="stat-card green"><div class="number">98.7%</div><div class="label">勝率（実質）</div></div>
-    <div class="stat-card"><div class="number">8</div><div class="label">防壁レイヤー数</div></div>
-    <div class="stat-card orange"><div class="number">1.3%</div><div class="label">全面敗訴確率</div></div>
+<!-- ===== SIMULATION ===== -->
+<div id="p-simulation" class="page">
+  <div class="page-header"><h2>Litigation Simulation</h2><button class="btn btn-gold">Run Simulation</button></div>
+  <div class="grid-4" style="margin-bottom:18px">
+    <div class="stat"><div class="val">11</div><div class="lbl">Simulations Run</div></div>
+    <div class="stat s-green"><div class="val">98.7%</div><div class="lbl">Effective Win Rate</div></div>
+    <div class="stat"><div class="val">8</div><div class="lbl">Defense Layers</div></div>
+    <div class="stat s-red"><div class="val">1.3%</div><div class="lbl">Full Loss Probability</div></div>
   </div>
   <div class="card">
-    <h3>8層の防壁</h3>
-    <div style="margin-top:12px;" id="sim-layers">
-      <div style="margin-bottom:8px;"><strong>第1層：契約不存在</strong><div class="score-bar"><div class="fill" style="width:50%;background:var(--green);"></div></div><span style="font-size:11px;color:#888;">突破確率 50%</span></div>
-      <div style="margin-bottom:8px;"><strong>第2層：仕事の未完成</strong><div class="score-bar"><div class="fill" style="width:20%;background:var(--green);"></div></div><span style="font-size:11px;color:#888;">突破確率 20%</span></div>
-      <div style="margin-bottom:8px;"><strong>第3層：出来高否定</strong><div class="score-bar"><div class="fill" style="width:40%;background:var(--orange);"></div></div><span style="font-size:11px;color:#888;">突破確率 40%</span></div>
-      <div style="margin-bottom:8px;"><strong>第4層：加藤の無権代理</strong><div class="score-bar"><div class="fill" style="width:70%;background:var(--orange);"></div></div><span style="font-size:11px;color:#888;">突破確率 70%</span></div>
-      <div style="margin-bottom:8px;"><strong>第5層：立証不能</strong><div class="score-bar"><div class="fill" style="width:80%;background:var(--orange);"></div></div><span style="font-size:11px;color:#888;">突破確率 80%</span></div>
-      <div style="margin-bottom:8px;"><strong>第6層：反訴相殺</strong><div class="score-bar"><div class="fill" style="width:40%;background:var(--green);"></div></div><span style="font-size:11px;color:#888;">突破確率 40%</span></div>
-      <div style="margin-bottom:8px;"><strong>第7層：訴訟外圧力</strong><div class="score-bar"><div class="fill" style="width:10%;background:var(--green);"></div></div><span style="font-size:11px;color:#888;">和解誘導</span></div>
-      <div style="margin-bottom:8px;"><strong>第8層：信用性破壊</strong><div class="score-bar"><div class="fill" style="width:5%;background:var(--green);"></div></div><span style="font-size:11px;color:#888;">心証補強</span></div>
+    <div class="card-title">8-Layer Defense System</div>
+    <div style="font-size:12px">
+      <div style="margin-bottom:10px"><strong>Layer 1: Contract Non-Existence</strong> <span style="color:var(--text2);font-size:11px">(Breakthrough: 50%)</span><div class="bar"><div class="fill" style="width:50%;background:var(--green)"></div></div></div>
+      <div style="margin-bottom:10px"><strong>Layer 2: Work Not Completed</strong> <span style="color:var(--text2);font-size:11px">(Breakthrough: 20%)</span><div class="bar"><div class="fill" style="width:20%;background:var(--green)"></div></div></div>
+      <div style="margin-bottom:10px"><strong>Layer 3: No Benefit Received</strong> <span style="color:var(--text2);font-size:11px">(Breakthrough: 40%)</span><div class="bar"><div class="fill" style="width:40%;background:var(--orange)"></div></div></div>
+      <div style="margin-bottom:10px"><strong>Layer 4: Kato's Unauthorized Agency</strong> <span style="color:var(--text2);font-size:11px">(Breakthrough: 70%)</span><div class="bar"><div class="fill" style="width:70%;background:var(--orange)"></div></div></div>
+      <div style="margin-bottom:10px"><strong>Layer 5: Proof Inability (Key witnesses gone)</strong> <span style="color:var(--text2);font-size:11px">(Breakthrough: 80%)</span><div class="bar"><div class="fill" style="width:80%;background:var(--orange)"></div></div></div>
+      <div style="margin-bottom:10px"><strong>Layer 6: Counterclaim Offset</strong> <span style="color:var(--text2);font-size:11px">(Breakthrough: 40%)</span><div class="bar"><div class="fill" style="width:40%;background:var(--green)"></div></div></div>
+      <div style="margin-bottom:10px"><strong>Layer 7: External Pressure (Subsidy report)</strong> <span style="color:var(--text2);font-size:11px">(Settlement leverage)</span><div class="bar"><div class="fill" style="width:10%;background:var(--green)"></div></div></div>
+      <div style="margin-bottom:10px"><strong>Layer 8: Credibility Destruction</strong> <span style="color:var(--text2);font-size:11px">(Impression reinforcement)</span><div class="bar"><div class="fill" style="width:5%;background:var(--green)"></div></div></div>
+    </div>
+    <div style="background:var(--light);padding:12px;border-radius:6px;margin-top:14px;font-size:12px">
+      <strong>Cumulative:</strong> Probability all 8 layers breached and full 20M yen paid = <strong style="color:var(--red)">1.3%</strong>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Requirements vs Implementation (14 Items)</div>
+    <table>
+      <tr><th>#</th><th>Requirement</th><th>Status</th><th>Verdict</th><th>Evidence</th></tr>
+      <tr><td>1</td><td>AI-powered search system (core feature)</td><td>AI not implemented at all</td><td><span class="tag tag-red">FAIL</span></td><td>Source code: zero AI libs</td></tr>
+      <tr><td>2</td><td>AI/DX data extraction function</td><td>Kaneko team couldn't build. Akiyoshi left.</td><td><span class="tag tag-red">FAIL</span></td><td>Progress report</td></tr>
+      <tr><td>3</td><td>Search function (ElasticSearch)</td><td>Basic implementation, accuracy issues</td><td><span class="tag tag-yellow">PARTIAL</span></td><td>Test mgmt sheet</td></tr>
+      <tr><td>4</td><td>Deploy to client's server (Art.8)</td><td>NOT DONE. global-bid.net = dev env only</td><td><span class="tag tag-red">FAIL</span></td><td>Contract + Chatwork</td></tr>
+      <tr><td>5</td><td>UAT / Acceptance (Art.6)</td><td>NOT DONE. No acceptance notice.</td><td><span class="tag tag-red">FAIL</span></td><td>Contract</td></tr>
+      <tr><td>6</td><td>User registration</td><td>May not work (#23 unverified)</td><td><span class="tag tag-red">FAIL</span></td><td>Bug report #23</td></tr>
+      <tr><td>7</td><td>Image upload</td><td>Click = no response (#12)</td><td><span class="tag tag-red">FAIL</span></td><td>Bug report #12</td></tr>
+      <tr><td>8</td><td>Terms of Service / Privacy Policy</td><td>Date shows "0000/00/00"</td><td><span class="tag tag-red">FAIL</span></td><td>Bug report #16,17</td></tr>
+      <tr><td>9</td><td>UI/UX Quality</td><td>Menu-title mismatch, h6 tag misuse</td><td><span class="tag tag-yellow">PARTIAL</span></td><td>Shimazu review</td></tr>
+      <tr><td>10</td><td>Dev Management</td><td>Shimazu: "impossible to manage with this"</td><td><span class="tag tag-red">BROKEN</span></td><td>Bug sheet FB</td></tr>
+    </table>
+    <div style="background:#fef2f2;padding:10px;border-radius:6px;margin-top:12px;font-size:12px;font-weight:600;color:#dc2626">
+      Overall: 4 met / 2 partial / 8 failed = 35% requirements fulfillment
     </div>
   </div>
 </div>
 
-<!-- ===== Court Simulation ===== -->
-<div id="page-court" class="page hidden">
-  <div class="topbar"><h2>法廷シミュレーション</h2><button class="btn btn-gold" onclick="startCourt()">&#x25b6; 法廷開廷</button></div>
+<!-- ===== COURT SIM ===== -->
+<div id="p-court" class="page">
+  <div class="page-header"><h2>Courtroom Simulation</h2><button class="btn btn-gold">Start Session</button></div>
   <div class="tabs">
-    <div class="tab active" onclick="showCourt(1)">第1回 口頭弁論</div>
-    <div class="tab" onclick="showCourt(2)">第2回 争点整理</div>
-    <div class="tab" onclick="showCourt(3)">第3回 証人尋問</div>
+    <div class="tab active">Round 1: Opening</div>
+    <div class="tab">Round 2: Issues</div>
+    <div class="tab">Round 3: Witness</div>
   </div>
   <div class="card">
-    <div class="chat-box" id="court-chat">
-      <div class="chat-msg judge"><div class="role">【裁判官】</div>令和6年(ワ)第XXXX号、請負代金請求事件の第1回口頭弁論を開廷いたします。原告代理人、訴状を陳述されますか。</div>
-      <div class="chat-msg plaintiff"><div class="role">【原告代理人・佐々木】</div>訴状を陳述いたします。本件は請負代金2144万円の支払いを求める事案でございます。黙示の請負契約が成立しており、向井氏の「請求書を出してください」との発言は報酬支払義務の認識を示すものです。</div>
-      <div class="chat-msg defendant"><div class="role">【被告代理人・黒崎】</div>答弁書を陳述いたします。原告自身が提出した疎甲5号証に「契約書なし」と明記されております。デプロイは未実施、要件充足率は35%、加藤氏は登記簿にも相関図にもいない非社員が陳述書を代筆代印しております。</div>
-      <div class="chat-msg judge"><div class="role">【裁判官】</div>争点を整理します。第一に契約の成否、第二に成果物の完成度、第三に債務承認の有無。原告代理人、「契約書なし」の記載についてどうご説明されますか。</div>
-      <div class="chat-msg plaintiff"><div class="role">【原告代理人・佐々木】</div>書面がないという形式的事実の記載にすぎません。請負契約は諾成契約であり、見積書・着手指示・業務遂行の経緯から黙示の契約成立は認定されるべきです。</div>
-      <div class="chat-msg defendant"><div class="role">【被告代理人・黒崎】</div>疎甲5号証は原告側弁護士自身が作成し裁判所に提出した相関図です。「形式的な記載」ではなく、法的認識を示すものです。向井の発言は社内検討のための事務処理上の指示にすぎません。</div>
+    <div class="chat">
+      <div class="msg msg-judge"><div class="role">JUDGE</div>Case No. R6(Wa)XXXX, claim for contract payment. First oral argument session is now open. Plaintiff counsel, please present your complaint.</div>
+      <div class="msg msg-plaintiff"><div class="role">PLAINTIFF - Sasaki (Acropiece)</div>We claim payment of 21,440,000 yen for system development services. An implied contract was formed through quotation submission, work instructions, and continuous business dealings. Defendant's representative stated "please submit an invoice," acknowledging the payment obligation. Furthermore, defendant's CEO proposed installment payments, constituting debt acknowledgment under civil law.</div>
+      <div class="msg msg-defendant"><div class="role">DEFENDANT - Kurosaki</div>We request full dismissal. Plaintiff's own Exhibit 5 states "No Contract" explicitly. No deployment to the designated server was performed as required by Article 8. Requirements fulfillment is merely 35%, with AI functionality - the core of the system - completely unimplemented. Additionally, the person who ghost-wrote the key witness statement, one Kato, appears in neither the corporate registry nor the plaintiff's own correlation diagram. The credibility of plaintiff's evidence is fundamentally compromised.</div>
+      <div class="msg msg-judge"><div class="role">JUDGE</div>I will organize the issues. First: whether a contract was formed between the parties. Second: whether the deliverable was completed. Third: whether debt was acknowledged. Plaintiff counsel, please explain the "No Contract" notation in your own Exhibit 5.</div>
+      <div class="msg msg-plaintiff"><div class="role">PLAINTIFF - Sasaki</div>"No Contract" merely indicates that no written document was prepared - a formal observation. Under civil law, a contract for work is consensual and does not require written form. The sequence of quotation, work instruction, performance, and "send invoice" statement collectively establishes an implied contract.</div>
+      <div class="msg msg-defendant"><div class="role">DEFENDANT - Kurosaki</div>Exhibit 5 was prepared by plaintiff's own counsel and submitted to this court. It reflects plaintiff's legal assessment, not merely a formal observation. Moreover, Kaneko himself stated in Exhibit 10: "No contract was created." On April 1, 2024, Kaneko messaged: "I want to formalize the contract" - clearly indicating no contract existed at that point. Three separate pieces of evidence from plaintiff's own side consistently confirm contract non-existence.</div>
+      <div class="msg msg-judge"><div class="role">JUDGE</div>Both arguments are noted. The court will require detailed briefs. Plaintiff: specify the exact time, manner, and content of the alleged implied agreement. Defendant: provide the factual basis for Mukai's statement and the 35% calculation methodology. Next hearing date will be set. This session is adjourned.</div>
     </div>
   </div>
 </div>
 
-<!-- ===== Strategy ===== -->
-<div id="page-strategy" class="page hidden">
-  <div class="topbar"><h2>勝ちルート策定</h2></div>
+<!-- ===== STRATEGY ===== -->
+<div id="p-strategy" class="page">
+  <div class="page-header"><h2>Winning Route Strategy</h2></div>
   <div class="card">
-    <h3>最適戦略マップ</h3>
-    <div style="background:#f8f9fa;padding:16px;border-radius:8px;font-family:monospace;font-size:13px;line-height:2;margin-top:12px;">
-      <div><strong>Step 1: 防御の土台固め</strong></div>
-      <div>&nbsp;&nbsp;├── 陳述書作成（本舘・向井）</div>
-      <div>&nbsp;&nbsp;├── 社内発注規程の証拠化</div>
-      <div>&nbsp;&nbsp;└── 全チャット記録の時系列整理 ✅完了</div>
-      <div style="margin-top:8px;"><strong>Step 2: 攻めの準備</strong></div>
-      <div>&nbsp;&nbsp;├── 反訴の準備（決算書不正利用）</div>
-      <div>&nbsp;&nbsp;├── 第三者エンジニアに品質鑑定</div>
-      <div>&nbsp;&nbsp;└── 反町の陳述書取得</div>
-      <div style="margin-top:8px;"><strong>Step 3: 反論書面提出</strong></div>
-      <div>&nbsp;&nbsp;├── 主張: デプロイ未実施 + 検収未了 + 要件不充足</div>
-      <div>&nbsp;&nbsp;├── 反訴: 決算書守秘義務違反</div>
-      <div>&nbsp;&nbsp;└── 弾劾: 加藤「プレッシャー発言」</div>
-      <div style="margin-top:8px;"><strong>Step 4: 和解 or 判決</strong></div>
-      <div>&nbsp;&nbsp;├── 和解打診（300-500万円ライン）</div>
-      <div>&nbsp;&nbsp;└── 判決（出来高500-700万） → 反訴で相殺</div>
+    <div class="card-title">Optimal Strategy Map</div>
+    <div class="tree">
+      <div><strong>Step 1: Build Defense Foundation</strong></div>
+      <div>&nbsp;&nbsp;|-- Prepare witness statements (Motodate, Mukai)</div>
+      <div>&nbsp;&nbsp;|-- Document internal approval process (no PO = no contract)</div>
+      <div>&nbsp;&nbsp;'-- Organize all chat records chronologically <span class="done">[DONE]</span></div>
+      <div><strong>Step 2: Prepare Offense</strong></div>
+      <div>&nbsp;&nbsp;|-- Counterclaim: Financial statement misuse (400-900M yen)</div>
+      <div>&nbsp;&nbsp;|-- Third-party engineer quality assessment</div>
+      <div>&nbsp;&nbsp;|-- Obtain Sorimachi (JobCrown) witness statement</div>
+      <div>&nbsp;&nbsp;'-- Report subsidy fraud to gov agency</div>
+      <div><strong>Step 3: Submit Rebuttal Brief</strong></div>
+      <div>&nbsp;&nbsp;|-- Main: Deploy not done + Acceptance not done + Requirements unmet</div>
+      <div>&nbsp;&nbsp;|-- Counter: Financial statement confidentiality breach</div>
+      <div>&nbsp;&nbsp;'-- Impeach: Kato "pressure" statement + ghost-writing</div>
+      <div><strong>Step 4: Settlement or Judgment</strong></div>
+      <div>&nbsp;&nbsp;|-- Settlement: 300-500M yen line</div>
+      <div>&nbsp;&nbsp;'-- Judgment: Partial 500-700M -> Offset by counterclaim = NET ZERO</div>
     </div>
   </div>
   <div class="card">
-    <h3>相手方の真の動機（AI分析）</h3>
-    <div style="font-size:13px;line-height:1.8;margin-top:8px;">
-      <div><strong>動機1:</strong> 外部株主（A種優先株主）への「回収努力の証跡」作り</div>
-      <div><strong>動機2:</strong> 仮差押えで資金凍結 → 早期和解に追い込む</div>
-      <div><strong>動機3:</strong> 金子の取締役としての経営責任の回避</div>
-      <div style="margin-top:8px;background:#FFF8E1;padding:10px;border-radius:8px;">
-        <strong>結論:</strong> 相手は「勝つこと」ではなく「和解金を取ること」が目的。時間をかけるほどdetect有利。
+    <div class="card-title">Opponent's True Motivation (AI Analysis)</div>
+    <div style="font-size:12px;line-height:1.9">
+      <div><strong>Motive 1:</strong> Show "recovery effort" to A-class preferred shareholders. Kato said "shareholders will sue US if we can't recover."</div>
+      <div><strong>Motive 2:</strong> Freeze funds via provisional attachment, force quick settlement.</div>
+      <div><strong>Motive 3:</strong> Cover Kaneko's liability as director of Tansoman GX.</div>
+      <div style="margin-top:10px;background:#fffbeb;padding:12px;border-radius:6px;font-weight:500">
+        Conclusion: They don't expect to WIN. They expect to SETTLE. Time is on our side. The longer this goes, the weaker their position (key witnesses gone, proof inability).
       </div>
     </div>
   </div>
-</div>
-
-<!-- ===== Documents ===== -->
-<div id="page-documents" class="page hidden">
-  <div class="topbar"><h2>書面作成支援</h2></div>
-  <div class="card-grid">
-    <div class="card" style="cursor:pointer;" onclick="alert('AIが準備書面のドラフトを生成します')">
-      <h3>&#x1f4dd; 準備書面ドラフト生成</h3>
-      <p style="font-size:13px;color:#888;margin-top:8px;">現在の争点・証拠からAIが反論書面の骨子を自動生成</p>
-      <button class="btn btn-primary" style="margin-top:12px;">生成する</button>
-    </div>
-    <div class="card" style="cursor:pointer;">
-      <h3>&#x1f4c4; 裁判所書式テンプレート</h3>
-      <p style="font-size:13px;color:#888;margin-top:8px;">答弁書・準備書面・証拠説明書・陳述書等のテンプレート</p>
-      <button class="btn btn-outline" style="margin-top:12px;">テンプレート一覧</button>
-    </div>
-    <div class="card" style="cursor:pointer;">
-      <h3>&#x1f4cb; 証拠説明書の自動生成</h3>
-      <p style="font-size:13px;color:#888;margin-top:8px;">登録済み証拠から証拠説明書を自動生成・Word出力</p>
-      <button class="btn btn-outline" style="margin-top:12px;">生成する</button>
-    </div>
+  <div class="card">
+    <div class="card-title">Kato Toru - Identity Analysis</div>
+    <table>
+      <tr><th>Check</th><th>Result</th><th>Implication</th></tr>
+      <tr><td>Corporate Registry (Ex.1)</td><td>NOT LISTED</td><td>Not officer, not director</td></tr>
+      <tr><td>Correlation Diagram (Ex.5)</td><td>NOT LISTED</td><td>Plaintiff's own lawyer excluded him</td></tr>
+      <tr><td>Self-description</td><td>"Person from Vietnamese company"</td><td>May belong to foreign entity, not Tansoman GX (Japan)</td></tr>
+      <tr><td>Employment evidence</td><td>NONE FOUND</td><td>No contract, no social insurance record</td></tr>
+      <tr><td>Court statement</td><td>Ghost-wrote + stamped Kaneko's statement</td><td>Evidence credibility = near zero</td></tr>
+      <tr><td>Hypothesis</td><td>A-class preferred shareholder's monitoring agent</td><td>Sent by VC/investor to recover funds</td></tr>
+    </table>
   </div>
 </div>
 
-<!-- ===== Search ===== -->
-<div id="page-search" class="page hidden">
-  <div class="topbar"><h2>判例検索</h2></div>
+<!-- ===== DOCUMENTS ===== -->
+<div id="p-documents" class="page">
+  <div class="page-header"><h2>Document Generation</h2></div>
+  <div class="grid-3">
+    <div class="card" style="cursor:pointer"><div class="card-title">Rebuttal Brief Draft</div><p style="font-size:12px;color:var(--text2)">AI generates brief skeleton from current issues and evidence.</p><button class="btn btn-primary" style="margin-top:12px">Generate</button></div>
+    <div class="card" style="cursor:pointer"><div class="card-title">Court Form Templates</div><p style="font-size:12px;color:var(--text2)">Answer, brief, evidence list, witness statement templates.</p><button class="btn btn-outline" style="margin-top:12px">Browse</button></div>
+    <div class="card" style="cursor:pointer"><div class="card-title">Evidence Description Sheet</div><p style="font-size:12px;color:var(--text2)">Auto-generate from registered evidence with exhibit numbers.</p><button class="btn btn-outline" style="margin-top:12px">Generate</button></div>
+    <div class="card" style="cursor:pointer"><div class="card-title">Counter-Argument Generator</div><p style="font-size:12px;color:var(--text2)">Input opponent's claims, AI generates rebuttals with case law.</p><button class="btn btn-outline" style="margin-top:12px">Generate</button></div>
+    <div class="card" style="cursor:pointer"><div class="card-title">Witness Question Prep</div><p style="font-size:12px;color:var(--text2)">AI generates cross-examination questions targeting weaknesses.</p><button class="btn btn-outline" style="margin-top:12px">Generate</button></div>
+    <div class="card" style="cursor:pointer"><div class="card-title">Settlement Proposal</div><p style="font-size:12px;color:var(--text2)">Calculate optimal settlement range based on win probability.</p><button class="btn btn-outline" style="margin-top:12px">Calculate</button></div>
+  </div>
+</div>
+
+<!-- ===== SEARCH ===== -->
+<div id="p-search" class="page">
+  <div class="page-header"><h2>Legal Research</h2></div>
   <div class="card">
-    <div style="display:flex;gap:10px;">
-      <input type="text" placeholder="争点・キーワードを入力して類似判例を検索..." style="flex:1;padding:10px 16px;border:1px solid var(--border);border-radius:8px;font-size:14px;" value="システム開発 請負 デプロイ未実施 仕事の完成">
-      <button class="btn btn-primary">&#x1f50d; AI検索</button>
+    <div class="search-box">
+      <input type="text" placeholder="Enter issue or keyword to search similar precedents..." value="System development, non-completion of work, undeployed">
+      <button class="btn btn-primary">Search</button>
     </div>
-    <div style="margin-top:16px;">
-      <div style="padding:12px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px;">
-        <div style="font-size:14px;font-weight:bold;">東京地判平成14年4月22日（判タ1127号161頁）</div>
-        <div style="font-size:12px;color:#888;margin-top:4px;">類似度: 92% | システム開発の「完成」の判断基準</div>
-        <div style="font-size:13px;margin-top:8px;">予定された最後の工程まで終了したか否かを基準とする。デプロイ未実施は最後の工程の未完了に該当。</div>
-      </div>
-      <div style="padding:12px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px;">
-        <div style="font-size:14px;font-weight:bold;">東京高判平成25年9月26日</div>
-        <div style="font-size:12px;color:#888;margin-top:4px;">類似度: 87% | システム稼働不能と仕事の完成否定</div>
-        <div style="font-size:13px;margin-top:8px;">システムが稼働可能な状態に至っていない場合、仕事の完成を否定。</div>
-      </div>
-      <div style="padding:12px;border:1px solid var(--border);border-radius:8px;">
-        <div style="font-size:14px;font-weight:bold;">最判昭和43年2月27日</div>
-        <div style="font-size:12px;color:#888;margin-top:4px;">類似度: 78% | 和解交渉の譲歩と債務承認の区別</div>
-        <div style="font-size:13px;margin-top:8px;">紛争解決のための交渉過程における提案は権利の承認とは区別される。</div>
-      </div>
-    </div>
+    <div class="result-card"><div class="rc-title">Tokyo District Court, Apr 22, 2002 (Hanta 1127-161)</div><div class="rc-meta">Similarity: 92% | Criteria for "completion" in system development</div><div class="rc-body">Completion is judged by whether the last planned process has been finished. Undeployed system = last process not completed.</div></div>
+    <div class="result-card"><div class="rc-title">Tokyo High Court, Sep 26, 2013</div><div class="rc-meta">Similarity: 87% | System non-operational = work not completed</div><div class="rc-body">When system has not reached an operable state, completion of work is denied.</div></div>
+    <div class="result-card"><div class="rc-title">Supreme Court, Feb 27, 1968</div><div class="rc-meta">Similarity: 78% | Negotiation concession vs debt acknowledgment</div><div class="rc-body">Proposals during dispute resolution negotiations are distinguished from acknowledgment of rights.</div></div>
+    <div class="result-card"><div class="rc-title">Tokyo District Court, Dec 26, 2007</div><div class="rc-meta">Similarity: 74% | Purpose-limited information misuse = tort</div><div class="rc-body">Using information provided for a specific purpose for other purposes constitutes tortious conduct.</div></div>
+    <div class="result-card"><div class="rc-title">Supreme Court, Dec 24, 1968</div><div class="rc-meta">Similarity: 71% | Illegal provisional attachment</div><div class="rc-body">Provisional attachment made knowing no right to preserve exists constitutes tort.</div></div>
   </div>
 </div>
 
 </div>
 
 <script>
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-  document.getElementById('page-'+id).classList.remove('hidden');
-  document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
-  event.target.closest('a').classList.add('active');
-}
-
-function runSimulation() {
-  alert('AIエージェント（原告AI / 被告AI / 裁判官AI）がシミュレーションを実行中...\n\n結果: 勝率 98.7%（8層防壁）\n最も可能性の高い結末: 和解（300-500万円）');
-}
-
-function startCourt() {
-  alert('法廷シミュレーションを開始します。\n裁判官AI・原告代理人AI・被告代理人AIが交互に発言します。');
-}
-
-function showCourt(n) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
-}
+document.querySelectorAll('.sidebar nav a').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    document.querySelectorAll('.sidebar nav a').forEach(x=>x.classList.remove('active'));
+    a.classList.add('active');
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('p-'+a.dataset.page).classList.add('active');
+  });
+});
 </script>
 
 </body>
